@@ -1,0 +1,105 @@
+<section class="analytics-page">
+  <header class="analytics-page__intro">
+    <p class="eyebrow">Insights</p>
+    <h1>Study analytics</h1>
+    <p class="lede">See how your focus time adds up for this day, week, month, or year.</p>
+  </header>
+
+  <div class="range-row" role="tablist" aria-label="Analytics range">
+    @for (range of ranges; track range) {
+      <button
+        type="button"
+        role="tab"
+        class="range-chip"
+        [class.range-chip--active]="selectedRange === range"
+        [attr.aria-selected]="selectedRange === range"
+        (click)="selectRange(range)"
+      >
+        This {{ range }}
+      </button>
+    }
+  </div>
+
+  @if (errorMessage) {
+    <p class="banner banner--error" role="alert">{{ errorMessage }}</p>
+  }
+
+  @if (isLoading && !summary) {
+    <p class="status-line">Loading analytics…</p>
+  }
+
+  @if (summary) {
+    <div class="stat-grid">
+      <article class="stat">
+        <p class="stat__label">Total time</p>
+        <p class="stat__value">{{ formatDuration(summary.totalSeconds) }}</p>
+      </article>
+      <article class="stat">
+        <p class="stat__label">Sessions</p>
+        <p class="stat__value">{{ summary.sessionCount }}</p>
+      </article>
+      <article class="stat">
+        <p class="stat__label">Average</p>
+        <p class="stat__value">{{ formatDuration(summary.averageSeconds) }}</p>
+      </article>
+    </div>
+
+    <section class="chart-panel" [attr.aria-label]="chartTitle">
+      <div class="chart-panel__head">
+        <h2>{{ chartTitle }}</h2>
+        <p>{{ chartSubtitle }}</p>
+      </div>
+
+      @if (summary.buckets.length === 0) {
+        <p class="status-line">No completed sessions in this range yet.</p>
+      } @else {
+        <div class="bar-chart">
+          @for (bucket of summary.buckets; track bucket.date) {
+            <div class="bar-chart__item">
+              <div class="bar-chart__track">
+                <div
+                  class="bar-chart__fill"
+                  [style.height.%]="barHeight(bucket.totalSeconds)"
+                  [attr.title]="bucket.label + ': ' + formatDuration(bucket.totalSeconds)"
+                ></div>
+              </div>
+              <span class="bar-chart__label">{{ bucket.label }}</span>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="history-panel">
+      <div class="chart-panel__head">
+        <h2>Recent sessions</h2>
+        <p>Latest completed study blocks</p>
+      </div>
+
+      @if (summary.sessions.length === 0) {
+        <p class="status-line">Start a session to see history here.</p>
+      } @else {
+        <ul class="session-list">
+          @for (session of summary.sessions; track session.id) {
+            <li class="session-list__item">
+              <div>
+                <p class="session-list__title">{{ session.flow }}</p>
+                <p class="session-list__meta">
+                  {{ session.startedAt | date: 'mediumDate' }}
+                  ·
+                  {{ session.startedAt | date: 'shortTime' }}
+                  @if (session.endedAt) {
+                    – {{ session.endedAt | date: 'shortTime' }}
+                  }
+                </p>
+              </div>
+              <p class="session-list__duration">
+                {{ formatDuration(session.durationSeconds ?? 0) }}
+              </p>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</section>

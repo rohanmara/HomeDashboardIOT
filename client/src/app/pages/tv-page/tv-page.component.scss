@@ -1,0 +1,139 @@
+.tv-page {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.tv-page__intro h1 {
+  margin: 0.35rem 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.lede {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.tv-section h2 {
+  margin: 0 0 0.85rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tv-actions {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.tv-action {
+  display: grid;
+  gap: 0.25rem;
+  justify-items: start;
+  text-align: left;
+  width: 100%;
+  min-height: 6.5rem;
+  padding: 1.15rem 1.2rem;
+  border-radius: 1.15rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: transform 140ms ease, background 140ms ease;
+}
+
+.tv-action:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.tv-action:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.tv-system {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.tv-action--power {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(70, 96, 120, 0.14), transparent 42%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.tv-action--home {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(200, 150, 70, 0.16), transparent 42%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.tv-action--hotstar {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(45, 138, 120, 0.16), transparent 42%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.tv-action--zee5 {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(120, 72, 160, 0.14), transparent 42%),
+    rgba(255, 255, 255, 0.78);
+}
+
+.tv-action__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tv-action__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tv-action__hint {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.muted {
+  margin: 0;
+  color: var(--muted);
+}
+
+.banner {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.banner--ok {
+  background: #e7f5f0;
+  color: #1f6f62;
+  border: 1px solid #c5e4da;
+}
+
+.banner--error {
+  background: #fdeceb;
+  color: #7a2e28;
+  border: 1px solid #f0c4bf;
+}
+
+@media (min-width: 640px) {
+  .tv-system,
+  .tv-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

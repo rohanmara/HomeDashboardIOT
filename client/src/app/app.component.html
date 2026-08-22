@@ -1,0 +1,58 @@
+<div class="app-shell">
+  <header class="topbar">
+    <a routerLink="/" class="brand">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name">{{ title }}</span>
+    </a>
+
+    @if (activeNav === 'home') {
+      <nav class="nav" aria-label="Primary">
+        <a routerLink="/study" class="nav__link">Study</a>
+        <a routerLink="/tv" class="nav__link">TV</a>
+      </nav>
+    }
+
+    @if (activeNav === 'study') {
+      <nav class="nav" aria-label="Study">
+        <a
+          routerLink="/"
+          class="nav__link"
+        >
+          Modules
+        </a>
+        <a
+          routerLink="/study"
+          routerLinkActive="nav__link--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="nav__link"
+        >
+          Session
+        </a>
+        <a
+          routerLink="/study/analytics"
+          routerLinkActive="nav__link--active"
+          class="nav__link"
+        >
+          Analytics
+        </a>
+      </nav>
+    }
+
+    @if (activeNav === 'tv') {
+      <nav class="nav" aria-label="TV">
+        <a routerLink="/" class="nav__link">Modules</a>
+        <a
+          routerLink="/tv"
+          routerLinkActive="nav__link--active"
+          class="nav__link"
+        >
+          Controls
+        </a>
+      </nav>
+    }
+  </header>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

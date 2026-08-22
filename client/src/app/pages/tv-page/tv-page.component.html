@@ -1,0 +1,67 @@
+<section class="tv-page">
+  <header class="tv-page__intro">
+    <p class="eyebrow">Living room</p>
+    <h1>TV control</h1>
+    <p class="lede">
+      Toggle power, or open a serial on Hotstar / Zee5 — same ADB flows the ESP32 can call later.
+    </p>
+  </header>
+
+  <div class="tv-system">
+    <button
+      type="button"
+      class="tv-action tv-action--power"
+      [disabled]="isBusy"
+      (click)="togglePower()"
+    >
+      <span class="tv-action__label">Power</span>
+      <span class="tv-action__title">Toggle TV power</span>
+      <span class="tv-action__hint">Wake or sleep</span>
+    </button>
+
+    <button
+      type="button"
+      class="tv-action tv-action--home"
+      [disabled]="isBusy"
+      (click)="goHome()"
+    >
+      <span class="tv-action__label">Home</span>
+      <span class="tv-action__title">TV home</span>
+      <span class="tv-action__hint">Return to launcher</span>
+    </button>
+  </div>
+
+  <div class="tv-section">
+    <h2>Serials</h2>
+    @if (isLoadingShows) {
+      <p class="muted">Loading shows…</p>
+    } @else if (shows.length === 0) {
+      <p class="muted">No shows configured yet.</p>
+    } @else {
+      <div class="tv-actions">
+        @for (show of shows; track show.id) {
+          <button
+            type="button"
+            class="tv-action"
+            [class.tv-action--hotstar]="show.app === 'hotstar'"
+            [class.tv-action--zee5]="show.app === 'zee5'"
+            [disabled]="isBusy"
+            (click)="playShow(show)"
+          >
+            <span class="tv-action__label">{{ appLabel(show.app) }}</span>
+            <span class="tv-action__title">{{ show.titleMr }}</span>
+            <span class="tv-action__hint">{{ show.title }}</span>
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+  @if (statusMessage) {
+    <p class="banner banner--ok" role="status">{{ statusMessage }}</p>
+  }
+
+  @if (errorMessage) {
+    <p class="banner banner--error" role="alert">{{ errorMessage }}</p>
+  }
+</section>

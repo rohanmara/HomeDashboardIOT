@@ -1,0 +1,25 @@
+<section class="home-page">
+  <header class="home-page__intro">
+    <p class="eyebrow">Home hub</p>
+    <h1>Choose a module</h1>
+    <p class="lede">
+      Pick what you want to control. More modules can plug in here later.
+    </p>
+  </header>
+
+  <div class="module-grid">
+    @for (module of modules; track module.route) {
+      <a
+        class="module-card"
+        [class.module-card--teal]="module.accent === 'teal'"
+        [class.module-card--slate]="module.accent === 'slate'"
+        [routerLink]="module.route"
+      >
+        <p class="module-card__eyebrow">{{ module.title }}</p>
+        <h2>{{ module.title }}</h2>
+        <p>{{ module.description }}</p>
+        <span class="module-card__cta">{{ module.cta }}</span>
+      </a>
+    }
+  </div>
+</section>

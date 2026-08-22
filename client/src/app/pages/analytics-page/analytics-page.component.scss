@@ -1,0 +1,234 @@
+.analytics-page {
+  display: grid;
+  gap: 1.5rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.analytics-page__intro h1 {
+  margin: 0.35rem 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.lede {
+  margin: 0;
+  max-width: 30rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.range-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.range-chip {
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink-soft);
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.range-chip--active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #f4faf7;
+}
+
+.stat-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: 1fr;
+}
+
+.stat {
+  padding: 1.1rem 1.15rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+}
+
+.stat__label {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.stat__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.chart-panel,
+.history-panel {
+  min-width: 0;
+  padding: 1.15rem;
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+}
+
+.chart-panel {
+  overflow: hidden;
+}
+
+.chart-panel__head {
+  margin-bottom: 1rem;
+}
+
+.chart-panel__head h2 {
+  margin: 0 0 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.chart-panel__head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.55rem;
+  min-height: 11rem;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+  scrollbar-gutter: stable;
+}
+
+.bar-chart__item {
+  flex: 0 0 2.75rem;
+  width: 2.75rem;
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+}
+
+.bar-chart__track {
+  width: 100%;
+  height: 8.5rem;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 0.65rem;
+  background: rgba(26, 58, 52, 0.05);
+}
+
+.bar-chart__fill {
+  width: 100%;
+  border-radius: 0.65rem;
+  background: linear-gradient(180deg, #4aa994 0%, #2d8a78 100%);
+  min-height: 0.4rem;
+}
+
+.bar-chart__label {
+  font-size: 0.68rem;
+  color: var(--muted);
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;
+  max-width: 3.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.session-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.session-list__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.85rem 0;
+  border-top: 1px solid rgba(26, 58, 52, 0.08);
+}
+
+.session-list__item:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.session-list__title {
+  margin: 0 0 0.2rem;
+  font-weight: 650;
+  text-transform: capitalize;
+  color: var(--ink);
+}
+
+.session-list__meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.session-list__duration {
+  margin: 0;
+  font-weight: 650;
+  color: var(--teal-deep);
+  white-space: nowrap;
+}
+
+.status-line {
+  margin: 0;
+  color: var(--muted);
+}
+
+.banner {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: 0.85rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.banner--error {
+  background: #fdeceb;
+  color: #7a2e28;
+  border: 1px solid #f0c4bf;
+}
+
+@media (min-width: 640px) {
+  .stat-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 900px) {
+  .chart-panel,
+  .history-panel {
+    padding: 1.35rem 1.4rem;
+  }
+}

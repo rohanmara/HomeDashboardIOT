@@ -1,0 +1,108 @@
+<section class="session-page">
+  <header class="session-page__intro">
+    <p class="eyebrow">Study tracker</p>
+    <h1>Focus session</h1>
+    <p class="lede">
+      Start a session to open LeetCode + your DSA sheet. Log each solved problem into Problems and Log.
+    </p>
+  </header>
+
+  <div class="session-stage" [class.session-stage--active]="isActive">
+    <p class="session-stage__label">{{ isActive ? 'In progress' : 'Ready' }}</p>
+    <p class="session-stage__timer" aria-live="polite">
+      {{ formatClock(elapsedSeconds) }}
+    </p>
+    @if (activeSession) {
+      <p class="session-stage__meta">
+        Started
+        {{ activeSession.startedAt | date: 'shortTime' }}
+        · {{ activeSession.flow }}
+      </p>
+    } @else {
+      <p class="session-stage__meta">No active session</p>
+    }
+
+    <button
+      type="button"
+      class="session-toggle"
+      [class.session-toggle--stop]="isActive"
+      [disabled]="isBusy"
+      (click)="toggleSession()"
+    >
+      {{ isActive ? 'Stop session' : 'Start session' }}
+    </button>
+  </div>
+
+  @if (errorMessage) {
+    <p class="banner banner--error" role="alert">{{ errorMessage }}</p>
+  }
+
+  <section class="dsa-panel" aria-label="Log solved LeetCode problem">
+    <div class="dsa-panel__head">
+      <h2>Mark problem solved</h2>
+      <p>Appends a new row to Problems and Log. Topics formulas are left alone.</p>
+    </div>
+
+    <label class="field">
+      <span>LeetCode URL or title</span>
+      <input
+        type="text"
+        [(ngModel)]="problemInput"
+        name="problemInput"
+        placeholder="https://leetcode.com/problems/two-sum/ or 1. Two Sum"
+        autocomplete="off"
+      />
+    </label>
+
+    <div class="field-row">
+      <label class="field">
+        <span>Approach (optional)</span>
+        <input type="text" [(ngModel)]="approach" name="approach" />
+      </label>
+      <label class="field">
+        <span>Trick (optional)</span>
+        <input type="text" [(ngModel)]="trick" name="trick" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>Comments (optional)</span>
+      <input type="text" [(ngModel)]="comments" name="comments" placeholder="e.g. revisited / clean optimal" />
+    </label>
+
+    <div class="xp-row" role="group" aria-label="XP">
+      <span class="xp-row__label">XP</span>
+      @for (option of xpOptions; track option) {
+        <button
+          type="button"
+          class="xp-chip"
+          [class.xp-chip--active]="xp === option"
+          (click)="xp = option"
+        >
+          {{ option }}
+        </button>
+      }
+    </div>
+
+    <label class="check">
+      <input type="checkbox" [(ngModel)]="speedDemon" name="speedDemon" />
+      <span>Speed Demon</span>
+    </label>
+
+    <button
+      type="button"
+      class="dsa-submit"
+      [disabled]="isLoggingProblem || !problemInput.trim()"
+      (click)="logSolvedProblem()"
+    >
+      {{ isLoggingProblem ? 'Saving…' : 'Log to sheet' }}
+    </button>
+
+    @if (dsaSuccessMessage) {
+      <p class="banner banner--ok" role="status">{{ dsaSuccessMessage }}</p>
+    }
+    @if (dsaErrorMessage) {
+      <p class="banner banner--error" role="alert">{{ dsaErrorMessage }}</p>
+    }
+  </section>
+</section>
