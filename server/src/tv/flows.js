@@ -107,19 +107,32 @@ export async function runTvFlow(flowOrShowId, showId) {
     showId: show.id,
     app: show.app,
     deepLinkUsed: opened.deepLinkUsed,
+    episode: opened.episode ?? null,
     skipped: Boolean(opened.skipped),
     warning: opened.warning,
     stdout: opened.stdout,
     stderr: opened.stderr
   });
 
+  const episodeLabel = opened.episode
+    ? opened.episode.episodeNo != null
+      ? ` ep ${opened.episode.episodeNo}: ${opened.episode.title}`
+      : `: ${opened.episode.title}`
+    : '';
+
   return {
     flow: 2,
     action: 'show',
-    show: { id: show.id, title: show.title, app: show.app },
+    show: {
+      id: show.id,
+      title: show.title,
+      titleMr: show.titleMr,
+      app: show.app
+    },
+    episode: opened.episode ?? null,
     message: opened.skipped
       ? `${show.app} opened (${show.title} deep link missing)`
-      : `Opened ${show.title} on ${show.app}`,
+      : `Opened ${show.title}${episodeLabel} on ${show.app}`,
     warning: opened.warning,
     target: `${tvConfig.host}:${tvConfig.port}`,
     steps

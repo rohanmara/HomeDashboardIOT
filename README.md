@@ -85,7 +85,8 @@ adb devices
 Flows:
 
 1. Toggle TV power (`KEYCODE_POWER`)
-2. Wake TV → open Jio Hotstar (`in.startv.hotstar`) → open Lapandav deep link if configured
+2. Wake TV → open a serial deep link (Hotstar shows resolve the **latest episode** via Hotstar’s catalog API, then fall back to the show page if lookup fails)
+3. TV home (`KEYCODE_HOME`)
 
 Set the Lapandav link in [`server/src/tv/config.js`](server/src/tv/config.js) (`lapandavDeepLink`) or env `TV_LAPANDAV_DEEPLINK` (paste a Hotstar share/show URL). Until that is set, flow 2 still opens Hotstar and returns a warning.
 

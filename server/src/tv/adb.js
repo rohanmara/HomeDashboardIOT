@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { getShowById, getTvSerial, tvConfig } from './config.js';
+import { resolveHotstarLatestEpisode } from './hotstar.js';
 
 const execFileAsync = promisify(execFile);
 
@@ -127,16 +128,16 @@ export async function openApp(appKey) {
   }
 }
 
-function buildDeepLinkCandidates(show) {
+function buildDeepLinkCandidates(show, preferredLinks = []) {
   const link = show.deepLink.trim();
-  const candidates = [link];
-
+  const candidates = [...preferredLinks, link];
+  console.log('candidates', candidates);
   // Fallback only — https://www.zee5.com/... is what opens DetailsActivity on this TV
   if (show.app === 'zee5' && link.startsWith('https://')) {
     candidates.push(link.replace(/^https:\/\//, 'zee5://'));
   }
 
-  return [...new Set(candidates)];
+  return [...new Set(candidates.filter(Boolean))];
 }
 
 function buildViewIntentCommand(deepLink, appKey) {
@@ -187,6 +188,17 @@ export async function openShow(showId) {
     };
   }
 
+  let preferredLinks = [];
+  let resolvedEpisode = null;
+  let resolveWarning;
+
+  if (show.app === 'hotstar') {
+    const resolved = await resolveHotstarLatestEpisode(deepLink);
+    preferredLinks = resolved.candidates ?? [resolved.deepLink];
+    resolvedEpisode = resolved.episode ?? null;
+    resolveWarning = resolved.warning;
+  }
+
   // Cold-ish start: force-stop so AppStartActivity handles the deep link cleanly
   await forceStopApp(show.app);
   await new Promise((resolve) => setTimeout(resolve, 700));
@@ -195,10 +207,12 @@ export async function openShow(showId) {
   let lastResult = null;
   let lastError = null;
 
-  for (const candidate of buildDeepLinkCandidates(show)) {
+  for (const candidate of buildDeepLinkCandidates(show, preferredLinks)) {
     const command = buildViewIntentCommand(candidate, show.app);
     try {
+      console.log('command', command);
       lastResult = await shellCommandOnTv(command);
+      console.log('lastResult', lastResult);
       attempts.push({ deepLink: candidate, ...lastResult });
 
       const combined = `${lastResult.stdout}\n${lastResult.stderr}`.toLowerCase();
@@ -215,6 +229,8 @@ export async function openShow(showId) {
         show,
         skipped: false,
         deepLinkUsed: candidate,
+        episode: resolvedEpisode,
+        warning: resolveWarning,
         attempts,
         ...lastResult
       };

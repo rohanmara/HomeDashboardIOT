@@ -50,9 +50,7 @@ export const tvShows = [
     title: 'Lapandav',
     titleMr: 'लपंडाव',
     app: 'hotstar',
-    deepLink:
-      process.env.TV_LAPANDAV_DEEPLINK ??
-      'https://www.hotstar.com/in/shows/lapandav/1260148964'
+    deepLink: 'https://www.hotstar.com/in/shows/lapandav/1271447393'
   },
   {
     id: 'aamchya-ladkya-naik-bai',
